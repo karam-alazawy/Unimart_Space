@@ -57,10 +57,12 @@ class CustomerController extends Controller
         return view('customers.subscription',compact('subscriptions','id'));
     }
     
-      public function customers(){
+      public function customers(Request $request){
         Permissions::checkActive();
         Permissions::havePermission("editCustomers");
-
+        if ($request->q) {
+            $customers = Customer::where('email',  'like', '%' . $request->q . '%')->where('active',1)->get();
+        }else
         $customers = Customer::where('active',1)->get();
         //return $customers;
         return view('customers.index', compact('customers'));

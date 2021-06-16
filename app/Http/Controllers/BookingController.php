@@ -47,11 +47,33 @@ class BookingController extends Controller
     }
  
  
-    public function booking()
+    public function booking(Request $request)
     {     
+        // return $request;
         Permissions::havePermission("addReservation");
 
-           $reservations = Reservation::with(['customerRes' => function ($q)  {
+   
+        if ($request->q) {
+            $customer=Customer::where('email',  'like', '%' . $request->q . '%')->pluck('id');
+            $reservations = Reservation::with(['customerRes' => function ($q)  {
+                // $q->addSelect('?')
+                // $q->where('email',  'like', '%' . $request->q . '%');
+            }])->with(['roomRes2' => function ($q)  {
+                $q->with(['roomLang' => function ($q)  {
+                   
+                }]);
+                $q->with(['officeFromRoom' => function ($q)  {
+                   
+                }]);
+            }])->with(['tableRes' => function ($q)  {
+                $q->with(['tableLang' => function ($q)  {
+                   
+                }]);
+             
+            }])->whereIn('customer_id',$customer)->orderBy('created_at', 'desc')->
+           get();
+        }else
+        $reservations = Reservation::with(['customerRes' => function ($q)  {
             // $q->addSelect('?')
         }])->with(['roomRes2' => function ($q)  {
             $q->with(['roomLang' => function ($q)  {

@@ -20,6 +20,13 @@
             <h4 class="card-title">Customers</h4>
             <div class="col-12 mt-2">
                                         </div>
+                                        <form method="post" action="{{ route('customer.index') }}" autocomplete="off"
+            enctype="multipart/form-data">
+              @csrf
+              @method('get')
+              @include('alerts.success')
+            <input type="text" class="form-control" name='q' placeholder="email">
+            </form>
           </div>
           <div class="card-body">
             <div class="toolbar">

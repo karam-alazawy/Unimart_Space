@@ -19,6 +19,13 @@
               <a class="btn btn-primary btn-round text-white pull-right" href="{{ route('booking.add') }}">Add Booking</a>
             <h4 class="card-title">Booking</h4>
             <div class="col-12 mt-2">
+            <form method="post" action="{{ route('booking.index') }}" autocomplete="off"
+            enctype="multipart/form-data">
+              @csrf
+              @method('get')
+              @include('alerts.success')
+            <input type="text" class="form-control" name='q' placeholder="email">
+            </form>
                                         </div>
           </div>
           <div class="card-body">
@@ -30,6 +37,7 @@
               <tr>
                   <th>#</th>
                   <th>Name</th> 
+                  <th>email</th> 
                   <th>Office</th>
 
                   <th>Room</th>
@@ -46,6 +54,7 @@
                 <tr>
                   <th>#</th>
                   <th>Name</th>
+                  <th>email</th>
                   <th>Office</th>
                   <th>Room</th>
                   <th>Table</th>
@@ -65,6 +74,7 @@
                       </span>
                     </td>
                     <td>{{$data->customerRes->name}}</td>
+                    <td>{{$data->customerRes->email}}</td>
                     <td>{{$data->roomRes2->officeFromRoom->office_name}}</td>
 
                     <td>{{$data->roomRes->room_name}}</td>
